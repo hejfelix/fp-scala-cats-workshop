@@ -1,17 +1,17 @@
+package random
+
 import cats.data.NonEmptyList
 import cats.effect.{ContextShift, Effect}
+import cats.implicits._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Location
 import org.http4s.server.staticcontent.WebjarService.{Config, WebjarAsset}
 import org.http4s.server.staticcontent.webjarService
 import org.http4s.{HttpRoutes, Uri}
-import cats.implicits._
 import tapir.openapi.circe.yaml._
 import tapir.docs.openapi._
 
-abstract class SwaggerUiRoute[F[_]: Effect: ContextShift](api: Api,
-                                                          title: String,
-                                                          version: String) {
+abstract class SwaggerUiRoute[F[_]: Effect: ContextShift](api: RandomApi, title: String, version: String) {
 
   private val yamlDocAsString = api.getEndpoint.toOpenAPI(title, version).toYaml
 

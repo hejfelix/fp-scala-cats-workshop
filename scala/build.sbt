@@ -10,7 +10,7 @@ val commonSettings = Seq(
 )
 
 lazy val randomService = project
-  .in(file("services/random/"))
+  .in(file("services/random"))
   .settings(
     commonSettings,
     libraryDependencies ++=
@@ -24,8 +24,28 @@ lazy val randomService = project
         "org.webjars" % "swagger-ui" % "3.20.9",
         "com.softwaremill.tapir" %% "tapir-openapi-docs" % V.tapir,
         "com.softwaremill.tapir" %% "tapir-openapi-circe-yaml" % V.tapir,
-        "com.softwaremill.sttp" %% "async-http-client-backend-cats" % "1.5.11" % Test,
-        "com.softwaremill.tapir" %% "tapir-sttp-client" % V.tapir % Test,
         "org.scalatest" %% "scalatest" % "3.0.5" % Test
       ),
   )
+  .dependsOn(randomApi)
+
+lazy val randomApi = project
+  .in(file("services/randomApi"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= Seq(
+      "com.softwaremill.tapir" %% "tapir-core" % V.tapir,
+      "com.softwaremill.sttp" %% "async-http-client-backend-cats" % "1.5.11",
+      "com.softwaremill.tapir" %% "tapir-sttp-client" % V.tapir,
+    )
+  )
+
+lazy val exercise1 = project
+  .in(file("exercises/exercise1"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= Seq(
+      "com.softwaremill.sttp" %% "async-http-client-backend-cats" % "1.5.11",
+    )
+  )
+  .dependsOn(randomApi, randomService)

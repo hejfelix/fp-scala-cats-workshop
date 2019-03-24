@@ -1,6 +1,8 @@
+package random
+
 import tapir.MediaType.TextPlain
 
-class Api(basePath: String) {
+class RandomApi(basePath: String) {
 
   import tapir._
 
